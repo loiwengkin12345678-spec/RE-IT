@@ -976,9 +976,18 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 宗教聯合科技. All Rights Reserved.</p>
-    </footer>
-</div>
+    <p>&copy; 2026 宗教聯合科技. All Rights Reserved.</p>
+</footer>
+
+<script>
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+</script>
 
 </body>
 </html>
