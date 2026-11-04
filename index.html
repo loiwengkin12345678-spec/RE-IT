@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宗教聯合科技 - 信仰與救恩歷史總覽與趣味小遊戲</title>
+    <title>宗教聯合科技 - 信仰與救恩歷史總覽與分階段闖關遊戲</title>
     <!-- Font Awesome Icons & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
@@ -230,21 +230,76 @@
             box-shadow: var(--shadow-lg);
             border: 3px solid #ffeaa7;
             text-align: center;
-            max-width: 750px;
+            max-width: 800px;
             margin: 0 auto;
         }
+        .category-select-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .category-btn {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .category-btn:hover {
+            background: #fff;
+            border-color: #e67e22;
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .category-btn i {
+            font-size: 1.8rem;
+            color: #e67e22;
+        }
+        .category-btn span.badge {
+            font-size: 0.8rem;
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 10px;
+            width: fit-content;
+            color: #718096;
+        }
+
         .game-header {
             margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .game-score {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #e67e22;
             background: #fff5eb;
-            display: inline-block;
-            padding: 6px 20px;
+            padding: 6px 18px;
             border-radius: 30px;
-            margin-bottom: 15px;
+        }
+        .back-cat-btn {
+            background: #edf2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #4a5568;
+        }
+        .back-cat-btn:hover {
+            background: #cbd5e1;
         }
         .progress-bar-container {
             width: 100%;
@@ -261,10 +316,11 @@
             transition: width 0.4s ease;
         }
         .question-text {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #2c3e50;
             margin-bottom: 25px;
+            text-align: left;
         }
         .options-grid {
             display: grid;
@@ -282,7 +338,7 @@
             border: 2px solid #e2e8f0;
             padding: 15px;
             border-radius: 14px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #334155;
             cursor: pointer;
@@ -351,7 +407,7 @@
 <header>
     <div class="header-badge"><i class="fa-solid fa-cross"></i> 宗教聯合科技</div>
     <h1>信仰寶庫與救恩歷史總覽</h1>
-    <p>天主教教理、禮儀生活、組織架構與二千年的救恩歷史完整資訊與互動體驗！</p>
+    <p>天主教教理、禮儀生活、組織架構與二千年的救恩歷史分階段闖關遊戲！</p>
 </header>
 
 <!-- Navigation Tabs -->
@@ -366,7 +422,7 @@
         <i class="fa-solid fa-scroll"></i> 救恩歷史詳細年表
     </button>
     <button class="tab-btn game-tab" onclick="switchTab('game')">
-        <i class="fa-solid fa-gamepad"></i> 信仰歷史小考驗 (Quiz Quest)
+        <i class="fa-solid fa-gamepad"></i> 歷史分階段小考驗 (Quiz Quest)
     </button>
 </div>
 
@@ -1148,25 +1204,69 @@
     <!-- TAB 4: 🎮 INTERACTIVE GAME -->
     <div id="game" class="tab-content">
         <div class="game-card">
-            <div class="game-header">
-                <div class="game-score"><i class="fa-solid fa-star"></i> 當前得分：<span id="score">0</span> 分</div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progress-bar"></div>
+            
+            <!-- Category Selection Screen -->
+            <div id="category-screen">
+                <h2>🎮 選擇你想挑戰的歷史階段</h2>
+                <p>每個階段各有 20 道題目，考考你對該時期歷史與信仰的了解！</p>
+                <div class="category-select-grid">
+                    <button class="category-btn" onclick="startCategoryGame(0)">
+                        <i class="fa-solid fa-crown"></i>
+                        <span>第一階段：舊約預備期</span>
+                        <span class="badge">創世紀至基督降生 | 20 題</span>
+                    </button>
+                    <button class="category-btn" onclick="startCategoryGame(1)">
+                        <i class="fa-solid fa-cross"></i>
+                        <span>第二階段：基督奧跡與宗徒時代</span>
+                        <span class="badge">公元 1 世紀 | 20 題</span>
+                    </button>
+                    <button class="category-btn" onclick="startCategoryGame(2)">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>第三階段：迫害與大公會議</span>
+                        <span class="badge">公元 2 至 8 世紀 | 20 題</span>
+                    </button>
+                    <button class="category-btn" onclick="startCategoryGame(3)">
+                        <i class="fa-solid fa-monument"></i>
+                        <span>第四階段：中世紀與東西分裂</span>
+                        <span class="badge">公元 9 至 15 世紀 | 20 題</span>
+                    </button>
+                    <button class="category-btn" onclick="startCategoryGame(4)">
+                        <i class="fa-solid fa-compass"></i>
+                        <span>第五階段：宗教改革與普世宣教</span>
+                        <span class="badge">公元 16 至 19 世紀 | 20 題</span>
+                    </button>
+                    <button class="category-btn" onclick="startCategoryGame(5)">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <span>第六階段：當代天主教會</span>
+                        <span class="badge">公元 20 世紀至今 | 20 題</span>
+                    </button>
                 </div>
             </div>
 
-            <div id="quiz-container">
+            <!-- Quiz Screen -->
+            <div id="quiz-screen" style="display: none;">
+                <div class="game-header">
+                    <button class="back-cat-btn" onclick="backToCategories()"><i class="fa-solid fa-arrow-left"></i> 回類別選單</button>
+                    <div class="game-score"><i class="fa-solid fa-star"></i> 當前得分：<span id="score">0</span> / 100</div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+
                 <div class="question-text" id="question-text">題目載入中...</div>
                 <div class="options-grid" id="options-grid"></div>
                 <div class="explanation-box" id="explanation-box"></div>
                 <button class="next-btn" id="next-btn" onclick="nextQuestion()">下一題 <i class="fa-solid fa-arrow-right"></i></button>
             </div>
 
-            <div id="result-container" style="display: none;">
-                <h2>🎉 恭喜你完成小考驗！</h2>
+            <!-- Result Screen -->
+            <div id="result-screen" style="display: none;">
+                <h2>🎉 恭喜完成該階段挑戰！</h2>
                 <p id="result-message" style="font-size: 1.2rem; margin: 20px 0;"></p>
-                <button class="next-btn" style="display: inline-block;" onclick="restartGame()">再玩一次 <i class="fa-solid fa-rotate-right"></i></button>
+                <button class="next-btn" style="display: inline-block; margin-right: 10px;" onclick="restartCategoryGame()">重玩本區 <i class="fa-solid fa-rotate-right"></i></button>
+                <button class="next-btn" style="display: inline-block; background: #e67e22;" onclick="backToCategories()">選擇其他階段 <i class="fa-solid fa-list"></i></button>
             </div>
+
         </div>
     </div>
 
@@ -1177,7 +1277,6 @@
 </footer>
 
 <script>
-    // Tab switching logic
     function switchTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1186,53 +1285,188 @@
         event.currentTarget.classList.add('active');
     }
 
-    // 🎮 Interactive Quiz Questions Database
-    const quizData = [
-        {
-            question: "1. 天主在起初創造天地萬物後，看著祂所造的一切，認為怎麼樣？",
-            options: ["很好", "普通", "還需要修改", "太複雜了"],
-            answer: 0,
-            explanation: "💡 《創世紀》1:31 記載：「天主看了祂所造的一切，認為很好。」"
-        },
-        {
-            question: "2. 梅瑟（摩西）帶領以色列人離開埃及後，在西乃山領受了什麼？",
-            options: ["七件聖事", "十誡", "玫瑰經", "米蘭敕令"],
-            answer: 1,
-            explanation: "💡 天主在西乃山頒布了「十誡」，確立了與選民的盟約關係。"
-        },
-        {
-            question: "3. 耶穌將天國的鑰匙交給了哪一位宗徒，並稱他為建堂的磐石？",
-            options: ["聖保祿", "聖若望", "聖伯多祿", "聖安德肋"],
-            answer: 2,
-            explanation: "💡 耶穌對伯多祿說：「你是伯多祿（磐石），在這磐石上，我要建立我的教會。」（瑪 16:18）"
-        },
-        {
-            question: "4. 公元 313 年，哪一位羅馬皇帝頒布《米蘭敕令》，結束對基督徒的迫害？",
-            options: ["查理曼大帝", "君士坦丁大帝", "拿破崙", "庇護九世"],
-            answer: 1,
-            explanation: "💡 君士坦丁大帝頒布《米蘭敕令》，給予基督宗教合法地位。"
-        },
-        {
-            question: "5. 梵蒂岡第二屆大公會議（梵二）推動的一項重要革新是什麼？",
-            options: ["允許使用各地母語舉行彌撒", "只准使用拉丁語", "禁止聖歌演唱", "取消主日彌撒"],
-            answer: 0,
-            explanation: "💡 梵二會議推動禮儀本土化，允許各地使用母語舉行彌撒，讓更多人理解信仰。"
-        }
+    // 20 Questions per Stage (120 Questions total)
+    const categoryQuestions = [
+        // Category 0: Stage 1 (20 Qs)
+        [
+            { q: "1. 天主在第幾天創造了天地萬物，並照自己肖像造了人類？", opts: ["創世紀初", "出埃及記", "列王紀", "若蘇厄書"], ans: 0, exp: "💡 《創世紀》1:1-31 記載天主創造天地與人類。" },
+            { q: "2. 原罪發生後，天主給予女人的後裔將踏碎什麼的頭之許諾？", opts: ["獅子", "蛇", "鷹", "巨龍"], ans: 1, exp: "💡 《創世紀》3:15 稱為救恩的許諾：「她的後裔要踏碎你的頭」。" },
+            { q: "3. 天主與諾厄立約時，在雲霧中放下了什麼作為記號？", opts: ["彩虹（虹霓）", "橄欖枝", "火柱", "石板"], ans: 0, exp: "💡 《創世紀》9:13：「我把我的虹霓放在雲霧中，作我與大地立約的記號。」" },
+            { q: "4. 約 BC 2000 年，天主召叫誰離開故鄉往應許之地去？", opts: ["梅瑟", "亞巴郎", "達味", "若瑟"], ans: 1, exp: "💡 天主召叫亞巴郎（亞伯拉罕），應許將客納罕賜給他的後裔。" },
+            { q: "5. 厄撒格與雅各伯承傳盟約，天主應許地上萬民將因誰獲祝福？", opts: ["他的後裔", "君王", "埃及人", "先知"], ans: 0, exp: "💡 《創世紀》26:4：「地上萬民都要因你的後裔獲祝福。」" },
+            { q: "6. 若瑟被兄弟賣入埃及後，最終成為了什麼職位？", opts: ["法老", "宰相", "將軍", "祭司"], ans: 1, exp: "💡 若瑟被天主預備，在埃及成為宰相拯救飢荒中的家族。" },
+            { q: "7. 以色列人在埃及受奴役時，埃及法老因什麼原因而忌憚他們？", opts: ["又多又強", "擁有武器", "不服從命令", "建立軍隊"], ans: 0, exp: "💡 《出埃及記》1:9：「看，以色列子民比我們又多又強。」" },
+            { q: "8. 天主在燃燒的荊棘中向梅瑟啟示自己的名字是什麼？", opts: ["我是自有永有者", "全能天主", "和平之君", "萬軍之上主"], ans: 0, exp: "💡 《出埃及記》3:14：「我是在我是在（我是自有永有者）。」" },
+            { q: "9. 首屆逾越節時，以色列人在門框塗上什麼以避過災禍？", opts: ["羊血", "膏油", "水", "酒"], ans: 0, exp: "💡 《出埃及記》12:13：「這血喺你們所住的房屋上要當作記號... 我一見這血就逾越你們。」" },
+            { q: "10. 梅瑟在哪座山領受了天主頒布的十誡？", opts: ["西乃山", "加爾默羅山", "大博爾山", "錫安山"], ans: 0, exp: "💡 梅瑟在西乃山領受十誡，確立舊約盟約關係。" },
+            { q: "11. 十誡的第一誡強調了什麼？", opts: ["除天主外不可有其他的神", "孝敬父母", "不可殺人", "不可偷盜"], ans: 0, exp: "💡 《出埃及記》20:3：「除我之外，你不可有其他的神。」" },
+            { q: "12. 以色列人在曠野漂流 40 年期間，天主降下什麼食物養活他們？", opts: ["瑪納", "煎餅", "無花果", "葡萄"], ans: 0, exp: "💡 《出埃及記》16 章記載天主在曠野賜予瑪納。" },
+            { q: "13. 誰帶領以色列人渡過約旦河進入客納罕應許之地？", opts: ["若蘇厄", "梅瑟", "亞倫", "撒慕爾"], ans: 0, exp: "💡 梅瑟死後由若蘇厄帶領子民進入客納罕。" },
+            { q: "14. 民長時代的特徵是什麼？", opts: ["沒有君王，各人任意而行", "繁榮昌盛", "聖殿興建完成", "帝國統一"], ans: 0, exp: "💡 《民長紀》21:25：「那時以色列中沒有君王，各人任意而行。」" },
+            { q: "15. 先知撒慕爾傅油了誰成為以色列的第一任君王？", opts: ["撒烏耳", "達味", "所羅門", "希則克雅"], ans: 0, exp: "💡 撒慕爾傅油撒烏耳為首任君王。" },
+            { q: "16. 達味統一以色列後，定哪裡為國家與宗教的首都？", opts: ["耶路撒冷", "白冷", "納匝肋", "加沙"], ans: 0, exp: "💡 達味統一以色列並定都耶路撒冷。" },
+            { q: "17. 誰在耶路撒冷建造了第一座神聖聖殿？", opts: ["所羅門王", "達味王", "梅瑟", "若蘇厄"], ans: 0, exp: "💡 所羅門王建成第一座聖殿，成為敬拜中心。" },
+            { q: "18. 所羅門死後，王國分裂為哪兩個國家？", opts: ["北國以色列與南國猶大", "埃及與巴比倫", "羅馬與希臘", "亞述與波斯"], ans: 0, exp: "💡 約 BC 931 年王國分裂為北國（以色列）與南國（猶大）。" },
+            { q: "19. 先知依撒意亞預言默西亞降生時將稱為：「厄瑪奴耳」，意思是？", opts: ["天主與我們同在", "天主是愛", "救主降生", "至高者"], ans: 0, exp: "💡 《依撒意亞》7:14 預言童貞女懷孕生子，起名叫厄瑪奴耳（天主與我們同在）。" },
+            { q: "20. BC 586 年南國猶大亡於哪個帝國，導致聖殿被毀及子民被流放？", opts: ["巴比倫帝國", "亞述帝國", "羅馬帝國", "波斯帝國"], ans: 0, exp: "💡 南國猶大亡於巴比倫，經歷「巴比倫之囚」。" }
+        ],
+
+        // Category 1: Stage 2 (20 Qs)
+        [
+            { q: "1. 天使加俾額爾向哪位童貞女報喜，預告耶穌降生？", opts: ["瑪利亞", "依莎伯爾", "瑪爾大", "亞納"], ans: 0, exp: "💡 天使向瑪利亞報喜（路 1:26-38）。" },
+            { q: "2. 瑪利亞回答天使時說：「看，天主的婢女，願照你的話——」", opts: ["成就於我罷", "祝福大家", "引導世人", "賜予平安"], ans: 0, exp: "💡 《路加福音》1:38：「願照你的話成就於我罷！」" },
+            { q: "3. 耶穌基督在哪裡降生成人？", opts: ["白冷", "耶路撒冷", "羅馬", "雅典"], ans: 0, exp: "💡 耶穌在猶大的白冷城降生。" },
+            { q: "4. 若翰洗者在約旦河宣講什麼洗禮？", opts: ["悔改洗禮", "割損禮", "堅振禮", "祭獻禮"], ans: 0, exp: "💡 若翰洗者宣講悔改的洗禮，預備主的道路。" },
+            { q: "5. 耶穌受洗時，天父宣告了什麼話？", opts: ["這是我的愛子，我所喜悅的", "他是先知", "這是以色列的國王", "他是律法師"], ans: 0, exp: "💡 《瑪竇福音》3:17 天父宣告：「這是我的愛子，我所喜悅的。」" },
+            { q: "6. 耶穌揀選了多少位宗徒來跟從祂？", opts: ["12 位", "70 位", "3 位", "40 位"], ans: 0, exp: "💡 耶穌揀選了十二宗徒。" },
+            { q: "7. 耶穌在加里肋亞施行第一個奇蹟是在哪裡？", opts: ["加納婚宴（變水為酒）", "海面上行走", "增餅奇蹟", "治好瞎子"], ans: 0, exp: "💡 耶穌在加納婚宴變水為酒（若 2:1-11）。" },
+            { q: "8. 「山上寶訓」中，耶穌頒布的福音綱領稱為？", opts: ["真福八端", "十誡", "教宗通諭", "大公信經"], ans: 0, exp: "💡 《瑪竇福音》5:1-12 頒布真福八端。" },
+            { q: "9. 伯多祿宣認耶穌是基督後，獲賜了什麼權柄記號？", opts: ["天國的鑰匙", "權杖", "金冠冕", "紫袍"], ans: 0, exp: "💡 《瑪竇福音》16:19：「我要將天國的鑰匙交給你。」" },
+            { q: "10. 耶穌在高山顯聖容時，身旁出現了舊約哪兩位代表人物？", opts: ["梅瑟與依肋亞", "亞巴郎與諾厄", "達味與所羅門", "撒慕爾與丹尼爾"], ans: 0, exp: "💡 梅瑟（法律）與依肋亞（先知）同現顯聖容。" },
+            { q: "11. 耶穌騎著驢駒榮進哪個城市時，群眾喊著「賀三納」？", opts: ["耶路撒冷", "白冷", "耶里哥", "西頓"], ans: 0, exp: "💡 耶穌榮進耶路撒冷受群眾歡呼。" },
+            { q: "12. 在最後晚餐中，耶穌建立了哪項神聖聖事？", opts: ["聖体聖事", "聖洗聖事", "堅振聖事", "病人傅油"], ans: 0, exp: "💡 耶穌拿起餅和酒，建立聖體聖事（路 22:19）。" },
+            { q: "13. 耶穌受難前，在哪個山園進行極度痛苦的祈禱？", opts: ["葛法翁/山園（革實瑪尼）", "西乃山", "加爾默羅山", "大博爾山"], ans: 0, exp: "💡 耶穌在山園祈禱順從天父旨意。" },
+            { q: "14. 耶穌在十字架上臨終前說的最後一句話是？", opts: ["完成了！", "救救我！", "我很憤怒！", "再見！"], ans: 0, exp: "💡 《若望福音》19:30 記載耶穌說：「完成了！」" },
+            { q: "15. 耶穌死後第幾天光榮復活？", opts: ["第三天", "第一天", "第七天", "第四十天"], ans: 0, exp: "💡 耶穌死後第三天光榮復活。" },
+            { q: "16. 耶穌升天前給宗徒頒布的「大使命」是？", opts: ["使萬民成為門徒並授洗", "建立城堡", "徵收稅金", "隱居沙漠"], ans: 0, exp: "💡 《瑪竇福音》28:19：「你們要去使萬民成為門徒，因父及子及聖神之名給他們授洗。」" },
+            { q: "17. 宗徒們祈禱後，補選了哪一位取代猶達斯成為十二宗徒之一？", opts: ["瑪弟亞", "保祿", "巴爾納伯", "斯德望"], ans: 0, exp: "💡 宗徒搖籤選出瑪弟亞（宗 1:26）。" },
+            { q: "18. 在哪個節日聖神降臨在宗徒身上，標誌著教會正式誕生？", opts: ["五旬節", "逾越節", "帳棚節", "光明節"], ans: 0, exp: "💡 五旬節聖神降臨，教會公開傳教。" },
+            { q: "19. 教會歷史上首位殉道者（第一位殉道聖人）是誰？", opts: ["聖斯德望", "聖伯多祿", "聖保祿", "聖雅各伯"], ans: 0, exp: "💡 聖斯德望被石頭砸死殉道（宗 7:59）。" },
+            { q: "20. 迫害基督徒的掃祿，在哪條路上遇到復活的主而皈依成為聖保祿？", opts: ["大馬士革路上", "羅馬大道", "耶路撒冷小徑", "加里肋亞湖邊"], ans: 0, exp: "💡 掃祿在大馬士革路上受主光照皈依（宗 9:4）。" }
+        ],
+
+        // Category 2: Stage 3 (20 Qs)
+        [
+            { q: "1. 公元約 49 年召開的什麼會議，決定外邦人信徒不需先守猶太割損禮？", opts: ["耶路撒冷會議", "尼西亞會議", "特倫托會議", "梵蒂岡會議"], ans: 0, exp: "💡 耶路撒冷會議奠定教會普世性基礎。" },
+            { q: "2. 教會兩大柱石聖伯多祿與聖保祿在哪個城市殉道？", opts: ["羅馬", "雅典", "亞歷山大", "安提阿"], ans: 0, exp: "💡 伯多祿與保祿在羅馬帝國首都羅馬殉道。" },
+            { q: "3. 著名的護教家德爾圖良曾留下哪句名言讚頌殉道者？", opts: ["殉道者的鮮血是教會的種子", "知識就是力量", "和平萬歲", "信仰即理性"], ans: 0, exp: "💡 德爾圖良名言：「殉道者的鮮血是教會的種子。」" },
+            { q: "4. 公元 107 年，聖依納爵赴難途中在哪封信中首創「公教會（Catholic）」一詞？", opts: ["致士敏拿人書", "致羅馬人書", "致哥林有人書", "致加拉太人書"], ans: 0, exp: "💡 聖依納爵首創「公教會（Catholic Church）」。" },
+            { q: "5. 聖安東尼退入沙漠開創了什麼生活形式？", opts: ["隱修生活", "騎士團", "大學教職", "政治領袖"], ans: 0, exp: "💡 聖安東尼退入埃及沙漠開創隱修制度。" },
+            { q: "6. 公元 313 年，君士坦丁大帝頒布了什麼敕令給予基督教合法地位？", opts: ["米蘭敕令", "南特敕令", "至尊法案", "沃姆斯敕令"], ans: 0, exp: "💡 《米蘭敕令》結束羅馬對基督徒的迫害。" },
+            { q: "7. 公元 325 年召開的第一屆尼西亞大公會議制定了什麼信經？", opts: ["尼西亞信經", "宗徒信經", "聖奧斯定信經", "亞大納修信經"], ans: 0, exp: "💡 尼西亞會議制定《尼西亞信經》，宣認耶穌與天父同性同體。" },
+            { q: "8. 君士坦丁大帝將羅馬帝國首都遷往哪裡？", opts: ["君士坦丁堡", "威尼斯", "巴黎", "倫敦"], ans: 0, exp: "💡 AD 330 年遷都君士坦丁堡（新羅馬）。" },
+            { q: "9. 公元 381 年第一屆君士坦丁堡大公會議主要確立了誰的天主性？", opts: ["聖神", "聖母", "宗徒", "天使"], ans: 0, exp: "💡 君士坦丁堡會議確立聖神的天主性。" },
+            { q: "10. 公元 382 年羅馬會議確認的聖經正典包含舊約與新約共幾卷？", opts: ["73 卷", "66 卷", "50 卷", "100 卷"], ans: 0, exp: "💡 天主教聖經正典共有 73 卷（舊約 46 卷，新約 27 卷）。" },
+            { q: "11. 聖熱羅尼武完成了著名的什麼譯本聖經？", opts: ["拉丁通俗譯本（Vulgate）", "英文欽定本", "德文譯本", "中文譯本"], ans: 0, exp: "💡 聖熱羅尼武翻譯了《拉丁通俗譯本聖經》。" },
+            { q: "12. 聖熱羅尼武關於聖經的名言是？", opts: ["不知聖經，即不知基督", "讀書破萬卷", "信者得救", "聖經即法律"], ans: 0, exp: "💡 聖熱羅尼武：「不知聖經，即不知基督。」" },
+            { q: "13. 偉大教會父老聖奧斯定寫下的神學自傳傑作是？", opts: ["《懺悔錄》", "《神學大全》", "《九十五條論綱》", "《天主實義》"], ans: 0, exp: "💡 聖奧斯定著有《懺悔錄》與《天主之城》。" },
+            { q: "14. 聖奧斯定名言：「天主，祢為了祢自己造了我們，我們的心若不歇息在祢內，就——」", opts: ["不得安寧", "失去方向", "陷入黑暗", "充滿焦慮"], ans: 0, exp: "💡 《懺悔錄》：「我們的心若不歇息喺祢內，就不得安寧。」" },
+            { q: "15. 公元 431 年厄弗所大公會議嚴肅宣告聖母瑪利亞為？", opts: ["天主之母（Theotokos）", "平安之后", "眾陸之母", "天上天后"], ans: 0, exp: "💡 厄弗所會議確立聖母為「天主之母」。" },
+            { q: "16. 公元 451 年卡爾西頓大公會議宣告耶穌基督具有什麼樣的本性？", opts: ["完整的天主性與完整的人性（神人二性）", "只有神性", "只有人性", "第三種本性"], ans: 0, exp: "💡 卡爾西頓會議確立基督神人二性不混淆不分割。" },
+            { q: "17. 聖本篤建立卡西諾山修院，會規的座右銘是？", opts: ["祈禱並工作（Ora et Labora）", "愈顯天主光榮", "給我靈魂", "和平與善"], ans: 0, exp: "💡 本篤會座右銘：「祈禱並工作」。" },
+            { q: "18. 教宗大額我略一世尊稱教宗為？", opts: ["天主僕人們的僕人", "世上的君王", "萬有之主", "羅馬征服者"], ans: 0, exp: "💡 大額我略一世自稱：「Servus Servorum Dei（天主僕人們的僕人）」。" },
+            { q: "19. 早期教難中，哪位羅馬皇帝發動了史上最嚴酷的全國大教難？", opts: ["戴克里先", "尼祿", "奧古斯都", "圖拉真"], ans: 0, exp: "💡 AD 303 年戴克里先發動最嚴酷大教難。" },
+            { q: "20. 聖游斯丁撰寫《第一護教書》時對羅馬迫害者的名言是？", opts: ["你們可以殺害我們，但不能傷害我們", "我們必將反抗", "和平至上", "歷史會懲罰你們"], ans: 0, exp: "💡 聖游斯丁：「你們可以殺害我們，但不能傷害我們。」" }
+        ],
+
+        // Category 3: Stage 4 (20 Qs)
+        [
+            { q: "1. 公元 800 年聖誕節，教宗良三世在羅馬為誰加冕為「羅馬人的皇帝」？", opts: ["查理曼大帝", "拿破崙", "奧托一世", "腓特烈大帝"], ans: 0, exp: "💡 教宗良三世為法蘭克國王查理曼加冕。" },
+            { q: "2. 公元 910 年建立並發起中世紀教會改革的修院是？", opts: ["克呂尼修院", "卡西諾山修院", "熙篤修院", "隱修院"], ans: 0, exp: "💡 克呂尼修院推動教會自我淨化與改革。" },
+            { q: "3. 公元 1054 年發生的「東西教會大分裂」，決裂的是哪兩方？", opts: ["羅馬天主教與君士坦丁堡東正教", "天主教與新教", "英國國教與天主教", "路德宗與加爾文宗"], ans: 0, exp: "💡 1054 年東西教會相互開除教籍大分裂。" },
+            { q: "4. 公元 1095 年，哪位教宗發起第一次十字軍東征以收復聖地？", opts: ["烏爾巴諾二世", "良三世", "依諾森三世", "庇護五世"], ans: 0, exp: "💡 教宗烏爾巴諾二世發起第一次十字軍東征。" },
+            { q: "5. 十字軍東征時，騎士與群眾的歡呼口號「Deus vult!」意思是？", opts: ["這是天主的旨意！", "和平歸於大地！", "勝者為王！", "進攻耶路撒冷！"], ans: 0, exp: "💡 「Deus vult!」意為「這是天主的旨意！」" },
+            { q: "6. 提出本體論論證、名言為「我相信以致我理解」的神學家是？", opts: ["聖安瑟莫", "聖多瑪斯", "聖奧斯定", "聖本篤"], ans: 0, exp: "💡 聖安瑟莫提出 Credo ut intelligam（我相信以致我理解）。" },
+            { q: "7. 亞西西的聖方濟各創立了哪一個強調貧窮與和平的修會？", opts: ["方濟各會（小兄弟會）", "耶穌會", "慈幼會", "熙篤會"], ans: 0, exp: "💡 聖方濟各創立方濟各會。" },
+            { q: "8. 聖多明我創立了專長於宣講與神學辯證的什麼修會？", opts: ["多明我會（道明會）", "方濟各會", "本篤會", "靈醫會"], ans: 0, exp: "💡 聖多明我創立多明我會（宣道會）。" },
+            { q: "9. 公元 1215 年拉特朗第四屆大公會議確立了聖體聖事的什麼教義？", opts: ["變體論（Transubstantiation）", "象徵論", "同體論", "紀念論"], ans: 0, exp: "💡 拉特朗四會議確立餅酒變體為基督血肉的信理。" },
+            { q: "10. 中世紀經院哲學大師聖多瑪斯·阿奎那寫下的巨著是？", opts: ["《神學大全》", "《懺悔錄》", "《天主之城》", "《基督教要義》"], ans: 0, exp: "💡 聖多瑪斯·阿奎那著有神學峰頂《神學大全》。" },
+            { q: "11. 聖多瑪斯·阿奎那在祈禱中聽到主讚許他時，他的回答是？", opts: ["主，除了祢自己之外，我什麼也不要！", "請賜我智慧", "請賜我榮華富貴", "讓我升天堂"], ans: 0, exp: "💡 聖多瑪斯：「Domine, non nisi Te!（主，除了祢自己之外，我什麼也不要！）」。" },
+            { q: "12. 1309-1377 年間教宗遷居法國，這段歷史被稱為？", opts: ["亞維農之囚", "巴比倫之囚", "羅馬之劫", "康斯坦茨分裂"], ans: 0, exp: "💡 教宗遷居法國亞維農近 70 年稱為亞維農之囚。" },
+            { q: "13. 哪位女聖人勇敢寫信並親自說服教宗重返羅馬？", opts: ["聖加大利納（ Siena ）", "聖女大德蘭", "聖女小德蘭", "聖女貞德"], ans: 0, exp: "💡 聖加大利納勸說教宗回到聖伯多祿座前。" },
+            { q: "14. 1414-1418 年召開的哪次大公會議結束了西方教會大分裂？", opts: ["康斯坦茨大公會議", "特倫托會議", "尼西亞會議", "梵一會議"], ans: 0, exp: "💡 康斯坦茨大公會議結束了三位教宗並立的分裂。" },
+            { q: "15. 公元 1453 年哪個帝國陷落，標誌著拜占庭帝國（東羅馬）滅亡？", opts: ["君士坦丁堡陷落", "羅馬陷落", "雅典陷落", "耶路撒冷陷落"], ans: 0, exp: "💡 1453 年君士坦丁堡陷落於鄂圖曼帝國。" },
+            { q: "16. 1455 年古騰堡發明活字印刷後，第一本印製的書籍是？", opts: ["古騰堡聖經", "神學大全", "法典", "詩集"], ans: 0, exp: "💡 古騰堡印刷的第一本書是拉丁文聖經。" },
+            { q: "17. 1492 年天主教雙王完成收復失地運動，同年哪位航海家抵達美洲？", opts: ["哥倫布", "達伽馬", "麥哲倫", "利瑪竇"], ans: 0, exp: "💡 哥倫布於 1492 年發現新大陸。" },
+            { q: "18. 米開朗基羅在西斯汀禮拜堂花費數年完成的偉大天頂畫主題是？", opts: ["創世紀（天主造人）", "最後審判", "耶穌受難", "五旬節"], ans: 0, exp: "💡 米開朗基羅畫下了著名的西斯汀天頂畫《創世紀》。" },
+            { q: "19. 15 世紀末玫瑰經定型為多少端奧跡？", opts: ["十五端奧跡", "二十端", "五端", "十端"], ans: 0, exp: "💡 傳統玫瑰經定型為歡喜、痛苦、榮耀共十五端奧跡。" },
+            { q: "20. 亞西西聖方濟各的著名祈禱詞開頭是？", opts: ["主，請使我成為祢和平的工具", "天主保佑我", "願祢名受顯揚", "主賜我力量"], ans: 0, exp: "💡 聖方濟各和平禱詞：「主，請使我成為祢和平的工具」。" }
+        ],
+
+        // Category 4: Stage 5 (20 Qs)
+        [
+            { q: "1. 1517 年，馬丁·路德在德國張貼了什麼，引發宗教改革？", opts: ["《九十五條論綱》", "《至尊法案》", "《基督教要義》", "《米蘭敕令》"], ans: 0, exp: "💡 馬丁·路德張貼《九十五條論綱》抗議贖罪券。" },
+            { q: "2. 1534 年英國國王亨利八世通過什麼法案，使英國國教會脫離羅馬？", opts: ["《至尊法案》", "《九十五條論綱》", "《南特敕令》", "《權利法案》"], ans: 0, exp: "💡 亨利八世通過《至尊法案》自立為英國教會首腦。" },
+            { q: "3. 聖托馬斯·莫爾因拒絕承認亨利八世的至尊法案殉道，臨刑前名言是？", opts: ["我是國王忠臣，但首先是天主的僕人", "自由萬歲", "我不後悔", "請原諒國王"], ans: 0, exp: "💡 聖托馬斯·莫爾：「我是國王忠臣，但首先是天主的僕人。」" },
+            { q: "4. 加爾文出版了哪本新教神學重要巨著？", opts: ["《基督教要義》", "《神學大全》", "《懺悔錄》", "《天主實義》"], ans: 0, exp: "💡 加爾文著有《基督教要義》。" },
+            { q: "5. 聖依納爵·羅耀拉創立了哪一個極具影響力的修會？", opts: ["耶穌會（Society of Jesus）", "方濟各會", "慈幼會", "熙篤會"], ans: 0, exp: "💡 聖依納爵創立耶穌會。" },
+            { q: "6. 耶穌會的拉丁文座右銘「Ad Majorem Dei Gloriam (AMDG)」意思是？", opts: ["愈顯天主光榮", "祈禱並工作", "和平與善", "給我靈魂"], ans: 0, exp: "💡 AMDG 意為「愈顯天主光榮」。" },
+            { q: "7. 天主教會召開了哪次重要的大公會議來回應宗教改革並釐清教義？", opts: ["脫利騰大公會議（特倫托會議）", "梵一會議", "梵二會議", "尼西亞會議"], ans: 0, exp: "💡 脫利騰大公會議（1545-1563）推動天主教反宗教改革。" },
+            { q: "8. 1582 年抵達澳門、採取「文化適應」（尊儒祭祖）策略在中國傳教的耶穌會士是？", opts: ["利瑪竇", "湯若望", "南懷仁", "郎世寧"], ans: 0, exp: "💡 利瑪竇以文化適應策略開啟明朝天主教傳播。" },
+            { q: "9. 利瑪竇用中文寫下了哪本向中國士大夫介紹天主教的著作？", opts: ["《天主實義》", "《九十五條論綱》", "《神學大全》", "《至尊法案》"], ans: 0, exp: "💡 利瑪竇著有《天主實義》。" },
+            { q: "10. 受明朝朝廷委任編纂《崇禎曆書》的耶穌會科學家神父是？", opts: ["湯若望", "利瑪竇", "馬禮遜", "沙勿略"], ans: 0, exp: "💡 湯若望神父編纂《崇禎曆書》。" },
+            { q: "11. 1618-1648 年歐洲爆發了哪場殘酷的宗教與政治戰爭？", opts: ["三十年戰爭", "百年戰爭", "十字軍東征", "拿破崙戰爭"], ans: 0, exp: "💡 歐洲三十年戰爭最終簽署《威斯特伐利亞和約》。" },
+            { q: "12. 伽利略受裁判所審判時，引用了西塞羅名言說明聖經的目的：", opts: ["聖經是教人如何升天，而不是教天體如何運行", "科學高於聖經", "地球是宇宙中心", "真理屬於太陽"], ans: 0, exp: "💡 伽利略引用：「聖經是教人如何升天，而不是教天體如何運行。」" },
+            { q: "13. 18 世紀教宗頒布通諭禁止中國信徒祭祖尊孔，引發了長達百年的什麼爭議？", opts: ["中國禮儀之爭", "教宗無誤爭議", "二性論爭辯", "贖罪券爭議"], ans: 0, exp: "💡 「中國禮儀之爭」使天主教在清朝傳教受挫。" },
+            { q: "14. 1789 年法國大革命爆發後，對教會採取了什麼激進政策？", opts: ["沒收教會財產並迫害神職人員", "立天主教為國教", "建造新教堂", "資助宣教士"], ans: 0, exp: "💡 法國大革命時期沒收教會財產並要求神父簽署公民憲章。" },
+            { q: "15. 拿破崙稱帝後，曾軟禁了哪位勇敢的教宗？", opts: ["庇護七世", "庇護九世", "良十三世", "保祿六世"], ans: 0, exp: "💡 庇護七世教宗被拿破崙軟禁仍堅守職責。" },
+            { q: "16. 1858 年，聖母瑪利亞在法國露德顯現給哪位貧窮的小女孩？", opts: ["聖女伯爾納德", "聖女小德蘭", "聖女貞德", "聖女加大利納"], ans: 0, exp: "💡 露德聖母顯現給聖女伯爾納德。" },
+            { q: "17. 露德聖母顯現時向伯爾納德表明自己的身份是？", opts: ["我是始胎無染原罪者", "我是和平之后", "我是天主之母", "我是天使"], ans: 0, exp: "💡 露德聖母自述：「我是始胎無染原罪者」。" },
+            { q: "18. 1869-1870 年梵蒂岡第一屆大公會議正式宣告了哪項重要信理？", opts: ["教宗論道無誤（教宗無誤論）", "聖母蒙召升天", "聖體變體論", "三位一體"], ans: 0, exp: "💡 梵一會議宣告「教宗無誤論（Infallibility）」。" },
+            { q: "19. 1891 年教宗良十三世發表了哪篇奠定現代社會訓導基礎的通諭？", opts: ["《新事》通諭（Rerum Novarum）", "《願祢受讚頌》", "《百年》通諭", "《極度關切》"], ans: 0, exp: "💡 良十三世發表《新事》通諭關懷勞工尊嚴與權益。" },
+            { q: "20. 19 世紀末聖鮑思高神父創立了專門教育照顧青少年的什麼修會？", opts: ["慈幼會（Salesians）", "耶穌會", "方濟各會", "本篤會"], ans: 0, exp: "💡 聖鮑思高神父創立慈幼會，座右銘：「給我靈魂，拿走其餘」。" }
+        ],
+
+        // Category 5: Stage 6 (20 Qs)
+        [
+            { q: "1. 1929 年教宗與義大利簽署了什麼條約，正式成立梵蒂岡城國？", opts: ["《雷特朗條約》", "《米蘭敕令》", "《威斯特伐利亞和約》", "《凡爾賽條約》"], ans: 0, exp: "💡 簽署《雷特朗條約》確保聖座獨立，成立梵蒂岡城國。" },
+            { q: "2. 1937 年庇護十一世教宗發表德語通諭《極度關切》，嚴厲譴責哪個極權政權？", opts: ["納粹德國", "蘇聯共產主義", "法西斯義大利", "日本軍國主義"], ans: 0, exp: "💡 通諭《Mit Brennender Sorge》譴責納粹種族主義。" },
+            { q: "3. 1950 年教宗庇護十二世宣告了哪項關於聖母瑪利亞的信理？", opts: ["聖母蒙召升天", "始胎無染原罪", "天主之母", "終身童貞"], ans: 0, exp: "💡 宣告聖母靈魂肉身一同蒙召升天為信理。" },
+            { q: "4. 1959 年宣布召開梵蒂岡第二屆大公會議的慈祥教宗是？", opts: ["聖若望二十三世", "保祿六世", "若望保祿二世", "本篤十六世"], ans: 0, exp: "💡 聖若望二十三世宣布召開梵二會議。" },
+            { q: "5. 若望二十三世教宗對梵二會議的名言是：「打開教會的窗戶——」", opts: ["讓新鮮空氣吹進來！", "看清世界", "迎接陽光", "防範風雨"], ans: 0, exp: "💡 若望二十三世：「打開教會的窗戶，讓新鮮空氣吹進來！（Aggiornamento 現代化更新）」。" },
+            { q: "6. 1962-1965 年召開的梵二大公會議推動的一項重大禮儀改革是？", opts: ["允許彌撒全面使用各地母語", "取消彌撒", "恢復全拉丁文", "只准在室外舉行"], ans: 0, exp: "💡 梵二《禮儀憲章》允許彌撒使用母語。" },
+            { q: "7. 1964 年教宗保祿六世與東正教大牧首會面，共同撤銷了自哪一年留下的互開教籍絕罰？", opts: ["AD 1054 年", "AD 1517 年", "AD 325 年", "AD 800 年"], ans: 0, exp: "💡 撤銷了 1054 年東西教會大分裂時的互開教籍絕罰。" },
+            { q: "8. 1978 年當選教宗的聖若望·保祿二世來自哪個國家？", opts: ["波蘭", "義大利", "德國", "阿根廷"], ans: 0, exp: "💡 若望·保祿二世是 455 年來首位非義大利籍（波蘭籍）教宗。" },
+            { q: "9. 聖若望·保祿二世就職講道時對全球信徒的著名呼籲是？", opts: ["不要害怕！請為基督打開門！", "保持安靜", "追求財富", "遠離塵世"], ans: 0, exp: "💡 若望·保祿二世：「不要害怕！請為基督打開門，把門徹底打開！」" },
+            { q: "10. 1981 年若望·保祿二世遇刺重傷康復後，對槍手採取了什麼態度？", opts: ["親自前往監獄原諒並寬恕他", "要求判處死刑", "拒絕提起", "提出索償"], ans: 0, exp: "💡 教宗展現福音慈悲，親自到監獄寬恕槍手。" },
+            { q: "11. 1989 年東歐劇變與柏林圍牆倒塌，哪位教宗在捍衛人權中扮演了精神領袖？", opts: ["聖若望·保祿二世", "本篤十六世", "方濟各", "庇護十二世"], ans: 0, exp: "💡 若望·保祿二世推動東歐和平與共產主義瓦解。" },
+            { q: "12. 2000 年大禧年時，若望·保祿二世主持了什麼特別禮儀？", opts: ["代表教會歷史上子女的過錯向天主求寬恕", "慶祝新世紀", "頒發勳章", "舉辦體育賽事"], ans: 0, exp: "💡 2000 年求寬恕禮儀，代表歷史過錯反省道歉。" },
+            { q: "13. 2013 年，哪位博學的神學者教宗因年老體衰主動辭去教宗職位？", opts: ["本篤十六世", "若望保祿一世", "保祿六世", "若望二十三世"], ans: 0, exp: "💡 本篤十六世教宗主動辭職，開創現代先例。" },
+            { q: "14. 本篤十六世登基時謙遜地自稱為：", opts: ["天主偉大葡萄園中的一個謙遜工人", "偉大的領袖", "羅馬的主爵", "智慧的導師"], ans: 0, exp: "💡 本篤十六世：「喺天主偉大的葡萄園中，我只是一個謙遜的工人。」" },
+            { q: "15. 2013 年當選的方濟各教宗（Pope Francis）來自哪個大洲？", opts: ["南美洲（阿根廷）", "歐洲", "亞洲", "非洲"], ans: 0, exp: "💡 方濟各是首位來自美洲（阿根廷）及南半球的教宗。" },
+            { q: "16. 方濟各教宗屬於哪一個修會？", opts: ["耶穌會", "方濟各會", "多明我會", "慈幼會"], ans: 0, exp: "💡 方濟各是歷史上首位耶穌會出身的教宗。" },
+            { q: "17. 2015 年教宗方濟各發表了關懷生態與地球家園的哪篇通諭？", opts: ["《願祢受讚頌》（Laudato Si'）", "《新事》", "《百年》", "《極度關切》"], ans: 0, exp: "💡 《願祢受讚頌》通諭呼籲保護共同家園地球。" },
+            { q: "18. 2019 年方濟各頒布《你們是世界的光》手諭，旨在嚴懲什麼行為？", opts: ["神職人員性侵與掩蓋行為", "貪污財產", "怠忽職守", "異端邪說"], ans: 0, exp: "💡 手諭嚴懲性侵與保護兒童尊嚴。" },
+            { q: "19. 近年教宗方濟各大力推動全球教會進行什麼主題的世界主教會議？", opts: ["同道偕行（Synodality）", "梵三會議", "新傳教運動", "經濟改革"], ans: 0, exp: "💡 推動「同道偕行：共融、參與和使命」。" },
+            { q: "20. 天主教教會慶祝的 2025 禧年主題是？", opts: ["希望的旅人（Pilgrims of Hope）", "和平的世界", "愛德的世紀", "信仰的光芒"], ans: 0, exp: "💡 2025 禧年主題為「希望的旅人」。" }
+        ]
     ];
 
-    let currentQuestion = 0;
+    let currentCategory = 0;
+    let currentQuestionIdx = 0;
     let score = 0;
     let answered = false;
 
+    function startCategoryGame(catIdx) {
+        currentCategory = catIdx;
+        currentQuestionIdx = 0;
+        score = 0;
+        document.getElementById("score").innerText = score;
+
+        document.getElementById("category-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+
+        loadQuestion();
+    }
+
+    function backToCategories() {
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "none";
+        document.getElementById("category-screen").style.display = "block";
+    }
+
     function loadQuestion() {
         answered = false;
-        const q = quizData[currentQuestion];
-        document.getElementById("question-text").innerText = q.question;
-        
+        const qList = categoryQuestions[currentCategory];
+        const q = qList[currentQuestionIdx];
+
+        document.getElementById("question-text").innerText = q.q;
+
         const optionsGrid = document.getElementById("options-grid");
         optionsGrid.innerHTML = "";
-        
-        q.options.forEach((opt, index) => {
+
+        q.opts.forEach((opt, index) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerHTML = `<i class="fa-regular fa-circle"></i> ${opt}`;
@@ -1243,8 +1477,7 @@
         document.getElementById("explanation-box").style.display = "none";
         document.getElementById("next-btn").style.display = "none";
 
-        // Update Progress Bar
-        const progress = ((currentQuestion) / quizData.length) * 100;
+        const progress = ((currentQuestionIdx) / qList.length) * 100;
         document.getElementById("progress-bar").style.width = progress + "%";
     }
 
@@ -1252,33 +1485,35 @@
         if (answered) return;
         answered = true;
 
-        const q = quizData[currentQuestion];
-        const allButtons = document.querySelectorAll(".option-btn");
+        const qList = categoryQuestions[currentCategory];
+        const q = qList[currentQuestionIdx];
+        const allButtons = document.querySelectorAll("#options-grid .option-btn");
 
-        if (index === q.answer) {
+        if (index === q.ans) {
             btn.classList.add("correct");
             btn.querySelector("i").className = "fa-solid fa-circle-check";
-            score += 20;
+            score += 5; // 20 questions * 5 = 100 max
             document.getElementById("score").innerText = score;
         } else {
             btn.classList.add("wrong");
             btn.querySelector("i").className = "fa-solid fa-circle-xmark";
-            allButtons[q.answer].classList.add("correct");
-            allButtons[q.answer].querySelector("i").className = "fa-solid fa-circle-check";
+            allButtons[q.ans].classList.add("correct");
+            allButtons[q.ans].querySelector("i").className = "fa-solid fa-circle-check";
         }
 
         const expBox = document.getElementById("explanation-box");
-        expBox.innerText = q.explanation;
+        expBox.innerText = q.exp;
         expBox.style.display = "block";
-        expBox.style.background = (index === q.answer) ? "#d4edda" : "#fff3cd";
-        expBox.style.color = (index === q.answer) ? "#155724" : "#856404";
+        expBox.style.background = (index === q.ans) ? "#d4edda" : "#fff3cd";
+        expBox.style.color = (index === q.ans) ? "#155724" : "#856404";
 
         document.getElementById("next-btn").style.display = "inline-block";
     }
 
     function nextQuestion() {
-        currentQuestion++;
-        if (currentQuestion < quizData.length) {
+        const qList = categoryQuestions[currentCategory];
+        currentQuestionIdx++;
+        if (currentQuestionIdx < qList.length) {
             loadQuestion();
         } else {
             showResults();
@@ -1286,32 +1521,24 @@
     }
 
     function showResults() {
-        document.getElementById("quiz-container").style.display = "none";
-        document.getElementById("result-container").style.display = "block";
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "block";
         document.getElementById("progress-bar").style.width = "100%";
 
         let msg = "";
         if (score === 100) {
-            msg = "🏆 太厲害了！你是滿分的小小信仰歷史專家！";
-        } else if (score >= 60) {
-            msg = "🌟 表現得非常棒！你對教會歷史已經有很不錯的了解！";
+            msg = "🏆 太完美了！你精通了該歷史階段的所有細節！得滿分 100 分！";
+        } else if (score >= 70) {
+            msg = `🌟 非常優秀！獲得 ${score} 分！你對這個階段有相當紮實的了解！`;
         } else {
-            msg = "💪 加油！再看一次「救恩歷史年表」內容，下次一定能拿滿分！";
+            msg = `💪 獲得 ${score} 分！再複習一下年表，下次挑戰一定能更高分！`;
         }
-        document.getElementById("result-message").innerText = `你的最終得分是 ${score} / 100 分！\n${msg}`;
+        document.getElementById("result-message").innerText = msg;
     }
 
-    function restartGame() {
-        currentQuestion = 0;
-        score = 0;
-        document.getElementById("score").innerText = score;
-        document.getElementById("quiz-container").style.display = "block";
-        document.getElementById("result-container").style.display = "none";
-        loadQuestion();
+    function restartCategoryGame() {
+        startCategoryGame(currentCategory);
     }
-
-    // Initialize Game on Load
-    loadQuestion();
 </script>
 
 </body>
