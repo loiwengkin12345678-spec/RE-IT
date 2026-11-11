@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宗教聯合科技 - 信仰與救恩歷史總覽與分階段闖關遊戲</title>
+    <title>宗教聯合科技 - 信仰與救恩歷史、身份解析與分階段闖關遊戲</title>
     <!-- Font Awesome Icons & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
@@ -67,11 +67,11 @@
 
         /* Navigation Tabs */
         .nav-container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: -35px auto 40px auto;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             padding: 0 20px;
             position: relative;
             z-index: 10;
@@ -80,9 +80,9 @@
         .tab-btn {
             background: var(--card-bg);
             border: 2px solid transparent;
-            padding: 14px 24px;
+            padding: 12px 20px;
             border-radius: 50px;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-muted);
             box-shadow: var(--shadow-sm);
@@ -93,7 +93,7 @@
             gap: 8px;
         }
         .tab-btn i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         .tab-btn:hover {
             transform: translateY(-3px);
@@ -407,7 +407,7 @@
 <header>
     <div class="header-badge"><i class="fa-solid fa-cross"></i> 宗教聯合科技</div>
     <h1>信仰寶庫與救恩歷史總覽</h1>
-    <p>天主教教理、禮儀生活、組織架構與二千年的救恩歷史分階段闖關遊戲！</p>
+    <p>天主教教理、禮儀生活、組織架構、耶穌與聖母身份解析與二千年歷史分階段闖關遊戲！</p>
 </header>
 
 <!-- Navigation Tabs -->
@@ -421,8 +421,11 @@
     <button class="tab-btn" onclick="switchTab('timeline')">
         <i class="fa-solid fa-scroll"></i> 救恩歷史詳細年表
     </button>
+    <button class="tab-btn" onclick="switchTab('identity')">
+        <i class="fa-solid fa-user-tag"></i> 耶穌與聖母稱號解析
+    </button>
     <button class="tab-btn game-tab" onclick="switchTab('game')">
-        <i class="fa-solid fa-gamepad"></i> 歷史分階段小考驗 (Quiz Quest)
+        <i class="fa-solid fa-gamepad"></i> 歷史分階段小考驗
     </button>
 </div>
 
@@ -1189,7 +1192,7 @@
             </div>
             <div class="event-item">
                 <span class="event-time">AD 2021 - 2024 年</span>
-                <div class="event-title">推動「同道偕行（Synodality）」世界主教會議（出處：世界主教會議手冊）</div>
+                <div class="event-title">推動「同道偕行（Synodality）」世界主教會議（出-處：世界主教會議手冊）</div>
                 <div class="quote-box">金句：「共同行走、互相聆聽、喺聖神內共融、參與和使命。」（同道偕行核心精神）</div>
             </div>
             <div class="event-item">
@@ -1201,7 +1204,40 @@
 
     </div>
 
-    <!-- TAB 4: 🎮 INTERACTIVE GAME -->
+    <!-- TAB 4: NEW IDENTITY & TITLES SECTION -->
+    <div id="identity" class="tab-content">
+        <div class="section-box">
+            <h2 class="section-title"><i class="fa-solid fa-user-tag"></i> 耶穌與聖母的身份、角色與稱號解析</h2>
+            <p>在基督宗教傳統與歷史中，耶穌基督與聖母瑪利亞常透過不同的神學稱號、教義定義以及宗派傳統來闡述其救恩角色。</p>
+            
+            <div class="feature-card" style="margin-top: 20px;">
+                <h3><i class="fa-solid fa-person-breastfeeding"></i> 一、 聖母瑪利亞的稱號與神學定義</h3>
+                <ul>
+                    <li><strong>天主之母（Theotokos）：</strong>於公元 431 年的厄弗所大公會議確立。此稱號強調耶穌自受孕起就是完全的天主，因此瑪利亞孕育並生下了降生成人的天主子。</li>
+                    <li><strong>終身童貞（Semper Virgo）：</strong>天主教與東正教的傳統教義，定義瑪利亞在耶穌降生前後保持永遠的童貞。而多數新教教派則認為耶穌誕生後，約瑟與瑪利亞曾生養其他弟兄姊妹。</li>
+                    <li><strong>無染原罪（Immaculate Conception）：</strong>天主教專有信理，定義瑪利亞在自身受孕之初即蒙天主特恩，免受原罪玷染，以配作救主的母親。</li>
+                    <li><strong>各地的顯現稱號（如：露德聖母、花地瑪聖母、瓜達露佩聖母）：</strong>這些並非不同的多個聖母，而是同一個瑪利亞在不同歷史時期向特定地區顯現並傳遞福音訊息時的歷史尊稱。</li>
+                </ul>
+            </div>
+
+            <div class="feature-card" style="margin-top: 20px;">
+                <h3><i class="fa-solid fa-cross"></i> 二、 耶穌基督的身份與稱號（基督論）</h3>
+                <ul>
+                    <li><strong>歷史與神學稱號：</strong>
+                        <ul>
+                            <li><strong>拿撒勒人耶穌：</strong>指其真實的歷史與人性根源。</li>
+                            <li><strong>默西亞 / 基督（Messiah / Christ）：</strong>意為「受傅者」，即舊約所預言的君王與救世主。</li>
+                            <li><strong>天主子（Son of God）：</strong>彰顯其與聖父同屬於三位一體的 divino 關係。</li>
+                            <li><strong>聖言（Logos）：</strong>《若望福音》開篇所指，太初有道，道成肉身。</li>
+                        </ul>
+                    </li>
+                    <li><strong>神學本性定義：</strong>正統基督宗教（天主教、東正教、主流新教）採納卡爾西頓大公會議決議，定義耶穌為<strong>「真天主與真人」</strong>——具備完整的神性與完整的人性，二性結合成一位基督，不混亂、不改變、不分割。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 5: 🎮 INTERACTIVE GAME -->
     <div id="game" class="tab-content">
         <div class="game-card">
             
@@ -1349,7 +1385,7 @@
             { q: "10. 公元 382 年羅馬會議確認的聖經正典包含舊約與新約共幾卷？", opts: ["73 卷", "66 卷", "50 卷", "100 卷"], ans: 0, exp: "💡 天主教聖經正典共有 73 卷（舊約 46 卷，新約 27 卷）。" },
             { q: "11. 聖熱羅尼武完成了著名的什麼譯本聖經？", opts: ["拉丁通俗譯本（Vulgate）", "英文欽定本", "德文譯本", "中文譯本"], ans: 0, exp: "💡 聖熱羅尼武翻譯了《拉丁通俗譯本聖經》。" },
             { q: "12. 聖熱羅尼武關於聖經的名言是？", opts: ["不知聖經，即不知基督", "讀書破萬卷", "信者得救", "聖經即法律"], ans: 0, exp: "💡 聖熱羅尼武：「不知聖經，即不知基督。」" },
-            { q: "13. 偉大教會父老聖奧斯定寫下的神學自傳傑作是？", opts: ["《懺悔錄》", "《神學大全》", "《九十五條論綱》", "《天主實義》"], ans: 0, exp: "💡 聖奧斯定著有《懺悔錄》與《天主之城》。" },
+            { q: "13. 偉大教會父老聖奧斯定寫下的神學自傳傑作是？", opts: ["《懺悔錄》", "《神學大全》", "《天主之城》", "《基督教要義》"], ans: 0, exp: "💡 聖奧斯定著有《懺悔錄》與《天主之城》。" },
             { q: "14. 聖奧斯定名言：「天主，祢為了祢自己造了我們，我們的心若不歇息在祢內，就——」", opts: ["不得安寧", "失去方向", "陷入黑暗", "充滿焦慮"], ans: 0, exp: "💡 《懺悔錄》：「我們的心若不歇息喺祢內，就不得安寧。」" },
             { q: "15. 公元 431 年厄弗所大公會議嚴肅宣告聖母瑪利亞為？", opts: ["天主之母（Theotokos）", "平安之后", "眾陸之母", "天上天后"], ans: 0, exp: "💡 厄弗所會議確立聖母為「天主之母」。" },
             { q: "16. 公元 451 年卡爾西頓大公會議宣告耶穌基督具有什麼樣的本性？", opts: ["完整的天主性與完整的人性（神人二性）", "只有神性", "只有人性", "第三種本性"], ans: 0, exp: "💡 卡爾西頓會議確立基督神人二性不混淆不分割。" },
